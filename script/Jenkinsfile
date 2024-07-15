@@ -3,16 +3,18 @@ pipeline{
    tools{
     maven 'M2_HOME'
    }
+   
    stages{
      stage("SonarQube analysis") {          
             steps {
-             withSonarQubeEnv('sonarq') {
-            sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=geolocation_geosolution'
+            // withSonarQubeEnv('sonarq') {
+            //sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+           /// -Dsonar.projectKey=geolocation_geosolution'
 
-             }
+            // }
             }
         }
+        
     stage("maven"){
         steps{ 
         sh 'mvn clean '
@@ -25,8 +27,8 @@ pipeline{
     }
     stage('upload artifact'){
         steps{
-            sh 'curl -uadmin:AP8gcgmmset5jeYChTJYDN6XmDd -T \
-            target/bio*.jar \
+            //sh 'curl -uadmin:AP8gcgmmset5jeYChTJYDN6XmDd -T \
+            //target/bio*.jar \
             "http://ec2-52-91-134-51.compute-1.amazonaws.com:8081/artifactory/geolocation/geo/bio_${BUILD_ID}.jar"'
         }
     }
